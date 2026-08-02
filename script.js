@@ -4,181 +4,145 @@ const themeToggle = document.querySelector('.theme-toggle');
 const themeIcon = themeToggle.querySelector('i');
 const themeLabel = themeToggle.querySelector('span');
 const languageButtons = document.querySelectorAll('.language-button');
+const languageSwitcher = document.querySelector('.language-switcher');
 const assistantAnswer = document.querySelector('#assistant-answer');
 const questionChips = document.querySelectorAll('.question-chip');
 
 const translations = {
   en: {
-    navAbout: 'About', navExperience: 'Experience', navProjects: 'Projects', navAiChat: 'AI Chat', navContact: "Let's talk",
-    heroEyebrow: 'Computer Science Engineering · ENSA Tetouan', heroTitle: 'Building useful<br><em>digital systems.</em>',
-    heroIntro: "I'm <strong>Zakaria Ayad</strong>, a fifth-year Computer Science Engineering student at ENSA Tetouan, focused on Full-Stack development, AI, and DevOps.",
-    heroWork: 'Explore my work', heroResume: 'View résumé', heroProjects: 'production-minded projects', heroEnglish: 'English proficiency'
+    name: 'English', direction: 'ltr', nav: ['About', 'Experience', 'Projects', 'AI Chat', "Let's talk"], theme: ['Switch to dark mode', 'Switch to light mode', 'Dark', 'Light'],
+    hero: ['Computer Science Engineering · ENSA Tetouan', 'Building useful<br><em>digital systems.</em>', "I'm <strong>Zakaria Ayad</strong>, a fifth-year Computer Science Engineering student at ENSA Tetouan, focused on Full-Stack development, AI, and DevOps.", 'Explore my work', 'View résumé', 'production-minded projects', 'English proficiency'],
+    about: ['About me', 'A curious engineer who enjoys making complex things feel <em>clear.</em>', 'At ENSA Tetouan, I study Information and Decision Support Systems. I bring a practical, systems-minded approach to every project—from thoughtful interfaces to reliable APIs and scalable services.', 'AI and intelligent systems have been a personal ambition since childhood. As a freelance developer, I am committed to growing into an expert in this field, continuously learning and building reliable, useful products with ambitious teams.', 'Based in', 'Tetouan, Morocco', 'Languages', 'Darija · Arabic C2 · English C1 · French B2 · Spanish A1', 'Studies'],
+    credentials: [['Full-stack engineering', 'Interfaces, APIs, and service-oriented systems.'], ['Applied AI', 'Agents, RAG workflows, and data-driven products.'], ['Cloud & DevOps', 'Containers, delivery pipelines, and scalable foundations.']],
+    experience: ['Selected experience', ['PFA Internship · Hybrid', 'Built an AI help-desk chatbot for general and account-specific support, with a knowledge base, conversation management, and API endpoints through an admin dashboard.'], ['Internship · On-site', 'Standardized, analyzed, and visualized data; migrated CSV records to a database and designed a user interface that improved access to information.'], ['Internship', 'Built interactive web tools with a stronger, more intuitive user interface to improve everyday user experience.']],
+    work: ['Featured work', 'A selection of academic projects exploring intelligent systems, robust backends, and seamless user experiences.', ['AI / Automation', 'Autonomous AI Agent<br>Deployment Framework', 'An end-to-end pipeline for designing and deploying autonomous agents that execute complex task sequences through reasoning and tool use.'], ['Distributed systems', 'Patient Management<br>System', 'Production-ready microservices for patient records, billing, analytics, and authentication—designed to scale.'], ['Full-stack', 'Real-Time Messaging<br>Platform', 'A secure communication platform inspired by WhatsApp, with instant chat, media sharing, and message status tracking.'], ['Machine learning', 'Annual Income<br>Prediction Model', 'Trained and compared models to predict Moroccan individual income from a 40,000-record synthetic data set.']],
+    ai: ['AI-inspired assistant', 'Local knowledge interface', 'Ask the portfolio<br><em>without typing.</em>', 'Private by design · Predefined answers only', 'Ready to help', 'Select a question below to get a quick introduction.', 'Frequently asked questions', 'Who is Zakaria?', 'What does he specialize in?', 'What projects has he built?', 'What tools does he use?', 'How can I get in touch?'],
+    answers: ['Zakaria is a fifth-year Computer Science Engineering student at ENSA Tetouan, specializing in Information and Decision Support Systems. His work combines full-stack development, AI concepts, and DevOps foundations.', 'His strongest interests are building robust full-stack applications, intelligent workflows with AI agents and RAG concepts, and scalable services using modern cloud and container tools.', 'Highlights include an autonomous AI agent deployment framework, a production-ready patient management system, a real-time messaging platform, and an annual income prediction model.', 'He works with Java, Spring Boot, Angular, Python, JavaScript, Docker, PostgreSQL, MongoDB, Apache Kafka, AWS, and a broad set of delivery and quality tools.', 'You can contact Zakaria directly at zakariaayad27@gmail.com or by phone at +212 639389058. He is based in Tetouan, Morocco.'],
+    skills: ['Toolkit', 'Technologies I use to take ideas from sketch to <em>shipping.</em>', 'Languages & markup', 'Frameworks & platforms', 'Data, AI & integration', 'Cloud, DevOps & systems', 'Quality & delivery tools', 'Product & collaboration'], contact: ['Open to thoughtful collaborations', "Let's build something<br><em>that matters.</em>", 'Email', 'Connect on LinkedIn', 'Tetouan, Morocco · Available remotely and on-site', '© 2026 Zakaria Ayad. Built with intention.', 'Back to top']
   },
   fr: {
-    navAbout: 'À propos', navExperience: 'Expérience', navProjects: 'Projets', navAiChat: 'Chat IA', navContact: 'Contact',
-    heroEyebrow: 'Ingénierie informatique · ENSA Tétouan', heroTitle: 'Créer des <em>systèmes numériques</em><br>utiles.',
-    heroIntro: "Je suis <strong>Zakaria Ayad</strong>, étudiant en cinquième année d'ingénierie informatique à l'ENSA de Tétouan, spécialisé en développement Full-Stack, IA et DevOps.",
-    heroWork: 'Découvrir mes projets', heroResume: 'Voir le CV', heroProjects: 'projets réalisés', heroEnglish: 'niveau d’anglais'
-  }
-};
-
-const localizedContent = {
-  en: {
-    aboutLabel: 'About me', aboutTitle: 'A curious engineer who enjoys making complex things feel <em>clear.</em>',
-    aboutParagraphs: [
-      'At ENSA Tetouan, I study Information and Decision Support Systems. I bring a practical, systems-minded approach to every project—from thoughtful interfaces to reliable APIs and scalable services.',
-      'AI and intelligent systems have been a personal ambition since childhood. As a freelance developer, I am committed to growing into an expert in this field, continuously learning and building reliable, useful products with ambitious teams.'
-    ],
-    experienceLabel: 'Selected experience', workLabel: 'Featured work', workDescription: 'A selection of academic projects exploring intelligent systems, robust backends, and seamless user experiences.', languageFact: 'Darija · Arabic C2 · English C1 · French B2 · Spanish A1',
-    aiLabel: 'AI-inspired assistant', aiEyebrow: 'Local knowledge interface', aiTitle: 'Ask the portfolio<br><em>without typing.</em>', aiPrivacy: 'Private by design · Predefined answers only',
-    toolkitLabel: 'Toolkit', toolkitTitle: 'Technologies I use to take ideas from sketch to <em>shipping.</em>', contactEyebrow: 'Open to thoughtful collaborations', contactTitle: "Let's build something<br><em>that matters.</em>", footer: '© 2026 Zakaria Ayad. Built with intention.', backTop: 'Back to top'
+    name: 'Français', direction: 'ltr', nav: ['À propos', 'Expérience', 'Projets', 'Chat IA', 'Contact'], theme: ['Passer au mode sombre', 'Passer au mode clair', 'Sombre', 'Clair'],
+    hero: ['Ingénierie informatique · ENSA Tétouan', 'Créer des <em>systèmes numériques</em><br>utiles.', "Je suis <strong>Zakaria Ayad</strong>, étudiant en cinquième année d'ingénierie informatique à l’ENSA de Tétouan, spécialisé en développement Full-Stack, IA et DevOps.", 'Découvrir mes projets', 'Voir le CV', 'projets réalisés', 'niveau d’anglais'],
+    about: ['À propos', 'Un ingénieur curieux qui rend les sujets complexes <em>plus clairs.</em>', "À l’ENSA de Tétouan, j’étudie les systèmes d’information et d’aide à la décision. J’apporte une approche pragmatique et orientée systèmes à chaque projet, des interfaces soignées aux API fiables et services évolutifs.", 'L’IA et les systèmes intelligents sont une ambition personnelle depuis mon enfance. En tant que développeur freelance, je suis déterminé à devenir expert dans ce domaine, en apprenant continuellement et en créant des produits utiles et fiables avec des équipes ambitieuses.', 'Basé à', 'Tétouan, Maroc', 'Langues', 'Darija · Arabe C2 · Anglais C1 · Français B2 · Espagnol A1', 'Études'],
+    credentials: [['Ingénierie full-stack', 'Interfaces, API et systèmes orientés services.'], ['IA appliquée', 'Agents, workflows RAG et produits guidés par les données.'], ['Cloud & DevOps', 'Conteneurs, pipelines de livraison et fondations évolutives.']],
+    experience: ['Expériences sélectionnées', ['Stage PFA · Hybride', 'Création d’un chatbot IA de support général et spécifique aux comptes, avec base de connaissances, gestion des conversations et API via un tableau de bord administrateur.'], ['Stage · Sur site', 'Standardisation, analyse et visualisation de données ; migration de CSV vers une base de données et conception d’une interface améliorant l’accès aux informations.'], ['Stage', 'Création d’outils web interactifs avec une interface plus intuitive pour améliorer l’expérience utilisateur.']],
+    work: ['Projets phares', 'Une sélection de projets académiques autour des systèmes intelligents, des backends robustes et des expériences fluides.', ['IA / Automatisation', 'Framework de déploiement<br>d’agents IA autonomes', 'Pipeline complet pour concevoir et déployer des agents autonomes exécutant des séquences de tâches complexes par raisonnement et usage d’outils.'], ['Systèmes distribués', 'Système de gestion<br>des patients', 'Microservices prêts pour la production pour les dossiers patients, la facturation, l’analytique et l’authentification.'], ['Full-stack', 'Plateforme de messagerie<br>en temps réel', 'Plateforme de communication sécurisée inspirée de WhatsApp avec chat instantané, partage de médias et suivi des messages.'], ['Apprentissage automatique', 'Modèle de prédiction<br>du revenu annuel', 'Entraînement et comparaison de modèles pour prédire le revenu individuel marocain à partir de 40 000 enregistrements synthétiques.']],
+    ai: ['Assistant inspiré par l’IA', 'Interface de connaissances locale', 'Explorez le portfolio<br><em>sans rien saisir.</em>', 'Privé par conception · Réponses prédéfinies uniquement', 'Prêt à aider', 'Sélectionnez une question ci-dessous pour découvrir le profil.', 'Questions fréquentes', 'Qui est Zakaria ?', 'Quelle est sa spécialité ?', 'Quels projets a-t-il réalisés ?', 'Quels outils utilise-t-il ?', 'Comment le contacter ?'],
+    answers: ['Zakaria est étudiant en cinquième année d’ingénierie informatique à l’ENSA de Tétouan, spécialisé dans les systèmes d’information et d’aide à la décision. Il combine développement Full-Stack, concepts d’IA et bases DevOps.', 'Ses principaux centres d’intérêt sont les applications Full-Stack robustes, les workflows intelligents avec des agents IA et le RAG, ainsi que les services évolutifs basés sur le cloud et les conteneurs.', 'Parmi ses projets : un framework de déploiement d’agents IA autonomes, un système de gestion de patients, une plateforme de messagerie temps réel et un modèle de prédiction de revenu annuel.', 'Il travaille notamment avec Java, Spring Boot, Angular, Python, JavaScript, Docker, PostgreSQL, MongoDB, Apache Kafka, AWS et de nombreux outils de qualité et de déploiement.', 'Vous pouvez contacter Zakaria à l’adresse zakariaayad27@gmail.com ou au +212 639389058. Il est basé à Tétouan, au Maroc.'],
+    skills: ['Compétences', 'Les technologies que j’utilise pour passer d’une idée à <em>un produit livré.</em>', 'Langages & balisage', 'Frameworks & plateformes', 'Données, IA & intégration', 'Cloud, DevOps & systèmes', 'Outils qualité & livraison', 'Produit & collaboration'], contact: ['Ouvert aux collaborations', 'Construisons quelque chose<br><em>qui compte.</em>', 'E-mail', 'Me contacter sur LinkedIn', 'Tétouan, Maroc · Disponible à distance et sur site', '© 2026 Zakaria Ayad. Créé avec intention.', 'Haut de page']
   },
-  fr: {
-    aboutLabel: 'À propos', aboutTitle: 'Un ingénieur curieux qui rend les sujets complexes <em>plus clairs.</em>',
-    aboutParagraphs: [
-      "À l’ENSA de Tétouan, j’étudie les systèmes d’information et d’aide à la décision. J’apporte une approche pragmatique et orientée systèmes à chaque projet, des interfaces soignées aux API fiables et services évolutifs.",
-      'L’IA et les systèmes intelligents sont une ambition personnelle depuis mon enfance. En tant que développeur freelance, je suis déterminé à devenir expert dans ce domaine, en apprenant continuellement et en créant des produits utiles et fiables avec des équipes ambitieuses.'
-    ],
-    experienceLabel: 'Expériences sélectionnées', workLabel: 'Projets phares', workDescription: 'Une sélection de projets académiques autour des systèmes intelligents, des backends robustes et des expériences fluides.', languageFact: 'Darija · Arabe C2 · Anglais C1 · Français B2 · Espagnol A1',
-    aiLabel: 'Assistant inspiré par l’IA', aiEyebrow: 'Interface de connaissances locale', aiTitle: 'Explorez le portfolio<br><em>sans rien saisir.</em>', aiPrivacy: 'Privé par conception · Réponses prédéfinies uniquement',
-    toolkitLabel: 'Compétences', toolkitTitle: 'Les technologies que j’utilise pour passer d’une idée à <em>un produit livré.</em>', contactEyebrow: 'Ouvert aux collaborations', contactTitle: 'Construisons quelque chose<br><em>qui compte.</em>', footer: '© 2026 Zakaria Ayad. Créé avec intention.', backTop: 'Haut de page'
+  es: {
+    name: 'Español', direction: 'ltr', nav: ['Sobre mí', 'Experiencia', 'Proyectos', 'Chat IA', 'Hablemos'], theme: ['Cambiar a modo oscuro', 'Cambiar a modo claro', 'Oscuro', 'Claro'],
+    hero: ['Ingeniería informática · ENSA Tetuán', 'Creando sistemas<br><em>digitales útiles.</em>', 'Soy <strong>Zakaria Ayad</strong>, estudiante de quinto año de Ingeniería Informática en ENSA Tetuán, especializado en desarrollo Full-Stack, IA y DevOps.', 'Explorar mi trabajo', 'Ver currículum', 'proyectos orientados a producción', 'nivel de inglés'],
+    about: ['Sobre mí', 'Un ingeniero curioso que hace que lo complejo sea <em>claro.</em>', 'En ENSA Tetuán estudio Sistemas de Información y Apoyo a la Decisión. Aporto un enfoque práctico y orientado a sistemas a cada proyecto, desde interfaces cuidadas hasta API fiables y servicios escalables.', 'La IA y los sistemas inteligentes han sido una ambición personal desde mi infancia. Como desarrollador freelance, me comprometo a crecer como experto en este campo, aprendiendo continuamente y creando productos útiles y fiables.', 'Resido en', 'Tetuán, Marruecos', 'Idiomas', 'Darija · Árabe C2 · Inglés C1 · Francés B2 · Español A1', 'Estudios'],
+    credentials: [['Ingeniería full-stack', 'Interfaces, API y sistemas orientados a servicios.'], ['IA aplicada', 'Agentes, flujos RAG y productos basados en datos.'], ['Cloud y DevOps', 'Contenedores, pipelines de entrega y bases escalables.']],
+    experience: ['Experiencia destacada', ['Prácticas PFA · Híbrido', 'Desarrollé un chatbot de soporte con IA para asistencia general y de cuentas, con base de conocimiento, gestión de conversaciones y API mediante un panel administrativo.'], ['Prácticas · Presencial', 'Estandaricé, analicé y visualicé datos; migré registros CSV a una base de datos y diseñé una interfaz que mejoró el acceso a la información.'], ['Prácticas', 'Desarrollé herramientas web interactivas con una interfaz más sólida e intuitiva para mejorar la experiencia diaria.']],
+    work: ['Proyectos destacados', 'Una selección de proyectos académicos sobre sistemas inteligentes, backends robustos y experiencias de usuario fluidas.', ['IA / Automatización', 'Framework de despliegue<br>de agentes IA autónomos', 'Pipeline integral para diseñar y desplegar agentes autónomos que ejecutan secuencias de tareas complejas mediante razonamiento y uso de herramientas.'], ['Sistemas distribuidos', 'Sistema de gestión<br>de pacientes', 'Microservicios listos para producción para expedientes de pacientes, facturación, analítica y autenticación.'], ['Full-stack', 'Plataforma de mensajería<br>en tiempo real', 'Plataforma de comunicación segura inspirada en WhatsApp, con chat instantáneo, intercambio de archivos y seguimiento de mensajes.'], ['Aprendizaje automático', 'Modelo de predicción<br>de ingresos anuales', 'Entrené y comparé modelos para predecir ingresos individuales marroquíes a partir de 40.000 registros sintéticos.']],
+    ai: ['Asistente inspirado en IA', 'Interfaz local de conocimiento', 'Explora el portfolio<br><em>sin escribir.</em>', 'Privado por diseño · Solo respuestas predefinidas', 'Listo para ayudar', 'Selecciona una pregunta para obtener una introducción rápida.', 'Preguntas frecuentes', '¿Quién es Zakaria?', '¿En qué se especializa?', '¿Qué proyectos ha creado?', '¿Qué herramientas utiliza?', '¿Cómo puedo contactarlo?'],
+    answers: ['Zakaria es estudiante de quinto año de Ingeniería Informática en ENSA Tetuán, especializado en Sistemas de Información y Apoyo a la Decisión. Su trabajo combina desarrollo full-stack, conceptos de IA y fundamentos DevOps.', 'Sus principales intereses son crear aplicaciones full-stack robustas, flujos inteligentes con agentes de IA y RAG, y servicios escalables mediante herramientas cloud y contenedores.', 'Sus proyectos incluyen un framework de despliegue de agentes IA autónomos, un sistema de gestión de pacientes, una plataforma de mensajería en tiempo real y un modelo de predicción de ingresos anuales.', 'Trabaja con Java, Spring Boot, Angular, Python, JavaScript, Docker, PostgreSQL, MongoDB, Apache Kafka, AWS y un amplio conjunto de herramientas de entrega y calidad.', 'Puedes contactar con Zakaria en zakariaayad27@gmail.com o por teléfono en +212 639389058. Reside en Tetuán, Marruecos.'],
+    skills: ['Herramientas', 'Tecnologías que uso para llevar ideas del boceto al <em>lanzamiento.</em>', 'Lenguajes y marcado', 'Frameworks y plataformas', 'Datos, IA e integración', 'Cloud, DevOps y sistemas', 'Herramientas de calidad y entrega', 'Producto y colaboración'], contact: ['Abierto a colaboraciones', 'Construyamos algo<br><em>importante.</em>', 'Correo', 'Conectar en LinkedIn', 'Tetuán, Marruecos · Disponible en remoto y presencial', '© 2026 Zakaria Ayad. Creado con intención.', 'Volver arriba']
+  },
+  ar: {
+    name: 'العربية', direction: 'rtl', nav: ['نبذة', 'الخبرات', 'المشاريع', 'مساعد الذكاء الاصطناعي', 'لنتحدث'], theme: ['التبديل إلى الوضع الداكن', 'التبديل إلى الوضع الفاتح', 'داكن', 'فاتح'],
+    hero: ['هندسة علوم الحاسوب · ENSA تطوان', 'بناء أنظمة رقمية<br><em>مفيدة.</em>', 'أنا <strong>زكريا عياد</strong>، طالب في السنة الخامسة لهندسة علوم الحاسوب في ENSA تطوان، أركز على تطوير Full-Stack والذكاء الاصطناعي وDevOps.', 'استكشف أعمالي', 'عرض السيرة الذاتية', 'مشاريع جاهزة للإنتاج', 'مستوى الإنجليزية'],
+    about: ['نبذة عني', 'مهندس فضولي يجعل الأمور المعقدة <em>واضحة.</em>', 'أدرس في ENSA تطوان نظم المعلومات ودعم القرار. أقدم نهجًا عمليًا قائمًا على فهم الأنظمة في كل مشروع، من الواجهات المتقنة إلى واجهات API الموثوقة والخدمات القابلة للتوسع.', 'كان الذكاء الاصطناعي والأنظمة الذكية طموحًا شخصيًا منذ الطفولة. بصفتي مطورًا مستقلاً، أسعى لأن أصبح خبيرًا في هذا المجال عبر التعلم المستمر وبناء منتجات موثوقة ومفيدة مع فرق طموحة.', 'مقيم في', 'تطوان، المغرب', 'اللغات', 'الدارجة · العربية C2 · الإنجليزية C1 · الفرنسية B2 · الإسبانية A1', 'الدراسة'],
+    credentials: [['هندسة Full-Stack', 'واجهات وAPI وأنظمة موجهة للخدمات.'], ['الذكاء الاصطناعي التطبيقي', 'وكلاء، ومسارات RAG، ومنتجات قائمة على البيانات.'], ['Cloud وDevOps', 'حاويات، ومسارات تسليم، وبنية قابلة للتوسع.']],
+    experience: ['خبرات مختارة', ['تدريب PFA · هجين', 'طورت روبوت محادثة للدعم بالذكاء الاصطناعي للدعم العام والخاص بالحسابات، مع قاعدة معرفة وإدارة للمحادثات ونقاط API من خلال لوحة إدارة.'], ['تدريب · حضوري', 'وحدت البيانات وحللتها وصورتها؛ ونقلت سجلات CSV إلى قاعدة بيانات وصممت واجهة حسنت الوصول إلى المعلومات.'], ['تدريب', 'طورت أدوات ويب تفاعلية بواجهة أقوى وأكثر سهولة لتحسين تجربة المستخدم اليومية.']],
+    work: ['مشاريع مميزة', 'مجموعة من المشاريع الأكاديمية التي تستكشف الأنظمة الذكية والواجهات الخلفية القوية وتجارب المستخدم السلسة.', ['ذكاء اصطناعي / أتمتة', 'إطار نشر وكلاء<br>الذكاء الاصطناعي الذاتيين', 'مسار متكامل لتصميم ونشر وكلاء ذاتيين ينفذون تسلسلات مهام معقدة عبر الاستدلال واستخدام الأدوات.'], ['أنظمة موزعة', 'نظام إدارة<br>المرضى', 'خدمات مصغرة جاهزة للإنتاج لسجلات المرضى والفوترة والتحليلات والمصادقة، صممت لتتوسع.'], ['Full-Stack', 'منصة مراسلة<br>فورية', 'منصة اتصال آمنة مستوحاة من واتساب، تضم دردشة فورية ومشاركة وسائط وتتبع حالة الرسائل.'], ['تعلم الآلة', 'نموذج التنبؤ<br>بالدخل السنوي', 'دربت وقارنت نماذج للتنبؤ بالدخل الفردي المغربي بالاعتماد على بيانات اصطناعية تضم 40,000 سجل.']],
+    ai: ['مساعد مستوحى من الذكاء الاصطناعي', 'واجهة معرفة محلية', 'اسأل عن الملف الشخصي<br><em>من دون كتابة.</em>', 'خاص بحكم التصميم · إجابات محددة مسبقًا فقط', 'جاهز للمساعدة', 'اختر سؤالاً أدناه للحصول على تعريف سريع.', 'الأسئلة المتكررة', 'من هو زكرياء؟', 'ما تخصصه؟', 'ما المشاريع التي أنجزها؟', 'ما الأدوات التي يستخدمها؟', 'كيف يمكنني التواصل معه؟'],
+    answers: ['زكرياء طالب في السنة الخامسة لهندسة علوم الحاسوب في ENSA تطوان، ومتخصص في نظم المعلومات ودعم القرار. يجمع عمله بين تطوير Full-Stack ومفاهيم الذكاء الاصطناعي وأساسيات DevOps.', 'تركز اهتماماته على بناء تطبيقات Full-Stack قوية، ومسارات ذكية مع وكلاء الذكاء الاصطناعي وRAG، وخدمات قابلة للتوسع باستخدام أدوات السحابة والحاويات الحديثة.', 'تشمل مشاريعه إطارًا لنشر وكلاء ذكاء اصطناعي ذاتيين، ونظام إدارة المرضى، ومنصة مراسلة فورية، ونموذجًا للتنبؤ بالدخل السنوي.', 'يعمل باستخدام Java وSpring Boot وAngular وPython وJavaScript وDocker وPostgreSQL وMongoDB وApache Kafka وAWS والعديد من أدوات الجودة والتسليم.', 'يمكنك التواصل مع زكرياء عبر zakariaayad27@gmail.com أو الهاتف +212 639389058. يقيم في تطوان، المغرب.'],
+    skills: ['الأدوات', 'تقنيات أستخدمها لتحويل الأفكار من المخطط إلى <em>الإطلاق.</em>', 'اللغات والترميز', 'الأطر والمنصات', 'البيانات والذكاء الاصطناعي والتكامل', 'Cloud وDevOps والأنظمة', 'أدوات الجودة والتسليم', 'المنتج والتعاون'], contact: ['منفتح على التعاونات الهادفة', 'لنصنع شيئًا<br><em>مهمًا.</em>', 'البريد الإلكتروني', 'تواصل عبر LinkedIn', 'تطوان، المغرب · متاح عن بعد وفي الموقع', '© 2026 زكرياء أياض. صُنع بعناية.', 'العودة إلى الأعلى']
+  },
+  ary: {
+    name: 'الدارجة المغربية', direction: 'rtl', nav: ['عليا', 'التجارب', 'المشاريع', 'شات الذكاء الاصطناعي', 'نتواصلو'], theme: ['بدّل للوضع المظلم', 'بدّل للوضع الفاتح', 'مظلم', 'فاتح'],
+    hero: ['هندسة المعلوميات · ENSA تطوان', 'كنبني أنظمة رقمية<br><em>كتنفع.</em>', 'أنا <strong>زكريا عياد</strong>، طالب فالسنة الخامسة فهندسة المعلوميات فـ ENSA تطوان، مركز على تطوير Full-Stack والذكاء الاصطناعي وDevOps.', 'شوف خدمتي', 'شوف السيرة الذاتية', 'مشاريع واجدة للإنتاج', 'مستوى الإنجليزية'],
+    about: ['عليا', 'مهندس فضولي كيبسّط الأمور المعقدة <em>بوضوح.</em>', 'فـ ENSA تطوان كنقرا نظم المعلومات ودعم القرار. كنجيب طريقة عملية كتفكر فالأنظمة لكل مشروع، من واجهات مرتبة لـ API موثوقة وخدمات كتقدر تكبر.', 'الذكاء الاصطناعي والأنظمة الذكية كانو طموح شخصي ديالي من الصغر. كمطور حر، ملتزم نولي خبير فهاد المجال، كنتعلم باستمرار وكنبني منتجات مفيدة وموثوقة مع فرق طموحة.', 'ساكن فـ', 'تطوان، المغرب', 'اللغات', 'الدارجة · العربية C2 · الإنجليزية C1 · الفرنسية B2 · الإسبانية A1', 'الدراسة'],
+    credentials: [['هندسة Full-Stack', 'واجهات وAPI وأنظمة مبنية على الخدمات.'], ['ذكاء اصطناعي تطبيقي', 'وكلاء، ومسارات RAG، ومنتجات مبنية على البيانات.'], ['Cloud وDevOps', 'حاويات، ومسارات ديال التسليم، وبنية كتقدر تكبر.']],
+    experience: ['تجارب مختارة', ['ستاج PFA · هجين', 'بنيت شات بوت ديال الدعم بالذكاء الاصطناعي للدعم العام ودعم الحسابات، فيه قاعدة معرفة وتدبير المحادثات وAPI من لوحة الإدارة.'], ['ستاج · فالمكتب', 'وحدت وحللت وصورت البيانات؛ نقلت سجلات CSV لقاعدة بيانات وصممت واجهة حسّنت الولوج للمعلومات.'], ['ستاج', 'بنيت أدوات ويب تفاعلية بواجهة أقوى وأسهل باش نحسن تجربة المستخدم اليومية.']],
+    work: ['مشاريع مميزة', 'مجموعة مشاريع أكاديمية كتستكشف الأنظمة الذكية، والـ backends القوية، وتجارب المستخدم السلسة.', ['ذكاء اصطناعي / أوتوماتيزم', 'إطار نشر وكلاء<br>ذكاء اصطناعي مستقلين', 'مسار كامل لتصميم ونشر وكلاء مستقلين كينفذو مهام معقدة بالاستدلال واستعمال الأدوات.'], ['أنظمة موزعة', 'نظام تدبير<br>المرضى', 'خدمات صغيرة واجدة للإنتاج لملفات المرضى والفوترة والتحليلات والمصادقة، متصممة باش تكبر.'], ['Full-Stack', 'منصة المراسلة<br>فالوقت الحقيقي', 'منصة تواصل آمنة مستوحاة من واتساب، فيها شات مباشر ومشاركة الوسائط وتتبع حالة الرسائل.'], ['تعلم الآلة', 'نموذج توقع<br>الدخل السنوي', 'دربت وقارنت نماذج باش نتوقع الدخل الفردي المغربي من 40,000 سجل اصطناعي.']],
+    ai: ['مساعد مستوحى من الذكاء الاصطناعي', 'واجهة معرفة محلية', 'سول على البورتفوليو<br><em>بلا ما تكتب.</em>', 'خاص بالتصميم · غير أجوبة محددة مسبقًا', 'واجد يعاون', 'اختار سؤال من لتحت باش تعرف عليا بسرعة.', 'أسئلة متكررة', 'شكون هو زكرياء؟', 'فاش متخصص؟', 'شنو المشاريع لي دار؟', 'شنو الأدوات لي كيستعمل؟', 'كيفاش نتواصل معاه؟'],
+    answers: ['زكرياء طالب فالسنة الخامسة فهندسة المعلوميات فـ ENSA تطوان، متخصص فنظم المعلومات ودعم القرار. الخدمة ديالو كتجمع تطوير Full-Stack ومفاهيم الذكاء الاصطناعي وأساسيات DevOps.', 'الاهتمامات القوية ديالو هي بناء تطبيقات Full-Stack متينة، ومسارات ذكية بوكلاء الذكاء الاصطناعي وRAG، وخدمات كتقدر تكبر باستعمال cloud والحاويات الحديثة.', 'من المشاريع ديالو كاين إطار نشر وكلاء ذكاء اصطناعي مستقلين، نظام تدبير المرضى، منصة مراسلة فالوقت الحقيقي، ونموذج توقع الدخل السنوي.', 'كيخدم بـ Java وSpring Boot وAngular وPython وJavaScript وDocker وPostgreSQL وMongoDB وApache Kafka وAWS، وزيد عليهم أدوات كثيرة ديال الجودة والتسليم.', 'تقدر تتواصل مع زكرياء فـ zakariaayad27@gmail.com ولا فالتلفون +212 639389058. ساكن فتطوان، المغرب.'],
+    skills: ['الأدوات', 'تقنيات كنستعمل باش نوصل الأفكار من السكيش حتى <em>الإطلاق.</em>', 'اللغات والترميز', 'الأطر والمنصات', 'البيانات والذكاء الاصطناعي والتكامل', 'Cloud وDevOps والأنظمة', 'أدوات الجودة والتسليم', 'المنتج والتعاون'], contact: ['منفتح لتعاونات زوينة', 'نبنيو شي حاجة<br><em>كتهم.</em>', 'إيميل', 'تواصل فـ LinkedIn', 'تطوان، المغرب · متاح عن بعد وفالموقع', '© 2026 زكرياء أياض. تدار بنية زوينة.', 'رجع للفوق']
   }
 };
-
-const frenchQuestions = [
-  ['Qui est Zakaria ?', "Zakaria est étudiant en cinquième année d’ingénierie informatique à l’ENSA de Tétouan, spécialisé dans les systèmes d’information et d’aide à la décision. Il combine développement Full-Stack, concepts d’IA et bases DevOps."],
-  ['Quelle est sa spécialité ?', "Ses principaux centres d’intérêt sont les applications Full-Stack robustes, les workflows intelligents avec des agents IA et le RAG, ainsi que les services évolutifs basés sur le cloud et les conteneurs."],
-  ['Quels projets a-t-il réalisés ?', "Parmi ses projets : un framework de déploiement d’agents IA autonomes, un système de gestion de patients, une plateforme de messagerie temps réel et un modèle de prédiction de revenu annuel."],
-  ['Quels outils utilise-t-il ?', "Il travaille notamment avec Java, Spring Boot, Angular, Python, JavaScript, Docker, PostgreSQL, MongoDB, Apache Kafka, AWS et de nombreux outils de qualité et de déploiement."],
-  ['Comment le contacter ?', "Vous pouvez contacter Zakaria à l’adresse zakariaayad27@gmail.com ou au +212 639389058. Il est basé à Tétouan, au Maroc."]
-];
-
-const englishQuestions = [...questionChips].map((chip) => [chip.textContent, chip.dataset.answer]);
-
-function setTheme(theme) {
-  const isLight = theme === 'light';
-  document.body.classList.toggle('light-theme', isLight);
-  themeToggle.setAttribute('aria-pressed', String(isLight));
-  themeToggle.setAttribute('aria-label', isLight ? 'Switch to dark mode' : 'Switch to light mode');
-  themeIcon.className = isLight ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-  themeLabel.textContent = isLight ? 'Dark' : 'Light';
-  localStorage.setItem('portfolio-theme', theme);
-}
 
 function setText(selector, content, html = false) {
   const element = document.querySelector(selector);
-  if (element) {
-    if (html) element.innerHTML = content;
-    else element.textContent = content;
-  }
+  if (element) element[html ? 'innerHTML' : 'textContent'] = content;
+}
+
+function setTheme(theme) {
+  const isLight = theme === 'light';
+  const copy = translations[document.documentElement.lang] || translations.en;
+  document.body.classList.toggle('light-theme', isLight);
+  themeToggle.setAttribute('aria-pressed', String(isLight));
+  themeToggle.setAttribute('aria-label', isLight ? copy.theme[0] : copy.theme[1]);
+  themeIcon.className = isLight ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+  themeLabel.textContent = isLight ? copy.theme[2] : copy.theme[3];
+  localStorage.setItem('portfolio-theme', theme);
 }
 
 function setLanguage(language) {
-  const copy = translations[language];
-  const content = localizedContent[language];
+  const copy = translations[language] || translations.en;
   document.documentElement.lang = language;
-  document.querySelectorAll('[data-i18n]').forEach((element) => {
-    element.textContent = copy[element.dataset.i18n];
-  });
-  document.querySelectorAll('[data-i18n-html]').forEach((element) => {
-    element.innerHTML = copy[element.dataset.i18nHtml];
-  });
+  document.documentElement.dir = copy.direction;
+  document.body.classList.toggle('rtl', copy.direction === 'rtl');
+  languageSwitcher.setAttribute('aria-label', `${copy.name} language selector`);
 
-  setText('.about-section .section-label', `<span>01</span> ${content.aboutLabel}`, true);
-  setText('.about-section h2', content.aboutTitle, true);
-  document.querySelectorAll('.about-copy > p').forEach((paragraph, index) => { paragraph.textContent = content.aboutParagraphs[index]; });
-  setText('.quick-facts div:nth-child(2) dd', content.languageFact);
-  setText('.experience-section .section-label', `<span>02</span> ${content.experienceLabel}`, true);
-  setText('.work-section .section-label', `<span>03</span> ${content.workLabel}`, true);
-  setText('.section-heading > p', content.workDescription);
-  setText('.ai-chat-intro .section-label', `<span>04</span> ${content.aiLabel}`, true);
-  setText('.ai-chat-intro .eyebrow', `<span class="status-dot"></span> ${content.aiEyebrow}`, true);
-  setText('#ai-chat-title', content.aiTitle, true);
-  setText('.assistant-privacy', content.aiPrivacy);
-  setText('.skills-section .section-label', `<span>05</span> ${content.toolkitLabel}`, true);
-  setText('.skills-layout h2', content.toolkitTitle, true);
-  setText('.contact-section .eyebrow', content.contactEyebrow);
-  setText('.contact-section h2', content.contactTitle, true);
-  setText('footer p', content.footer);
-  setText('footer > a:last-child', content.backTop);
+  document.querySelectorAll('.site-nav a').forEach((element, index) => setText(`.site-nav a:nth-child(${index + 1})${index === 4 ? ' span' : ''}`, copy.nav[index]));
+  setText('.eyebrow [data-i18n="heroEyebrow"]', copy.hero[0]);
+  setText('#hero-title', copy.hero[1], true);
+  setText('.hero-intro', copy.hero[2], true);
+  ['heroWork', 'heroResume', 'heroProjects', 'heroEnglish'].forEach((key, index) => setText(`[data-i18n="${key}"]`, copy.hero[index + 3]));
 
-  const questions = language === 'fr' ? frenchQuestions : englishQuestions;
-  questionChips.forEach((chip, index) => {
-    chip.textContent = questions[index][0];
-    chip.dataset.answer = questions[index][1];
-  });
-  assistantAnswer.querySelector('p').textContent = language === 'fr'
-    ? 'Sélectionnez une question ci-dessous pour découvrir le profil.'
-    : 'Select a question below to get a quick introduction.';
+  setText('.about-section .section-label', `<span>01</span> ${copy.about[0]}`, true);
+  setText('.about-section h2', copy.about[1], true);
+  document.querySelectorAll('.about-copy > p').forEach((element, index) => setText(`.about-copy > p:nth-child(${index + 1})`, copy.about[index + 2]));
+  const facts = document.querySelectorAll('.quick-facts div');
+  [copy.about[4], copy.about[6], copy.about[8]].forEach((value, index) => facts[index].querySelector('dt').textContent = value);
+  [copy.about[5], copy.about[7]].forEach((value, index) => facts[index].querySelector('dd').textContent = value);
 
-  languageButtons.forEach((button) => {
-    const isActive = button.dataset.language === language;
-    button.classList.toggle('active', isActive);
-    button.setAttribute('aria-pressed', String(isActive));
-  });
+  document.querySelectorAll('.credential').forEach((element, index) => { element.querySelector('b').textContent = copy.credentials[index][0]; element.querySelector('p').textContent = copy.credentials[index][1]; });
+  setText('.experience-section .section-label', `<span>02</span> ${copy.experience[0]}`, true);
+  document.querySelectorAll('.experience-item').forEach((element, index) => { element.querySelector('.experience-type').textContent = copy.experience[index + 1][0]; element.querySelector('div:nth-child(2) > p:last-child').textContent = copy.experience[index + 1][1]; });
+
+  setText('.work-section .section-label', `<span>03</span> ${copy.work[0]}`, true);
+  setText('.section-heading > p', copy.work[1]);
+  document.querySelectorAll('.project').forEach((element, index) => { const project = copy.work[index + 2]; element.querySelector('.project-kicker').textContent = project[0]; element.querySelector('h3').innerHTML = project[1]; element.querySelector('.project-content > p:not(.project-kicker)').textContent = project[2]; });
+
+  setText('.ai-chat-intro .section-label', `<span>04</span> ${copy.ai[0]}`, true);
+  setText('.ai-chat-intro .eyebrow', `<span class="status-dot"></span> ${copy.ai[1]}`, true);
+  setText('#ai-chat-title', copy.ai[2], true);
+  setText('.assistant-privacy', `<i class="fa-solid fa-shield-halved"></i> ${copy.ai[3]}`, true);
+  setText('.assistant-header span:not(.local-badge)', `<i class="fa-solid fa-circle"></i> ${copy.ai[4]}`, true);
+  setText('#assistant-answer p', copy.ai[5]);
+  document.querySelector('.question-list').setAttribute('aria-label', copy.ai[6]);
+  questionChips.forEach((chip, index) => { chip.textContent = copy.ai[index + 7]; chip.dataset.answer = copy.answers[index]; });
+
+  setText('.skills-section .section-label', `<span>05</span> ${copy.skills[0]}`, true);
+  setText('.skills-layout h2', copy.skills[1], true);
+  document.querySelectorAll('.skill-groups h3').forEach((element, index) => element.textContent = copy.skills[index + 2]);
+  setText('.contact-section .eyebrow', copy.contact[0]);
+  setText('.contact-section h2', copy.contact[1], true);
+  setText('.contact-detail[href^="mailto"] span', copy.contact[2]);
+  setText('.linkedin-detail span', copy.contact[3]);
+  setText('.contact-location', `<i class="fa-solid fa-location-dot"></i> ${copy.contact[4]}`, true);
+  setText('footer p', copy.contact[5]);
+  setText('footer > a:last-child', `${copy.contact[6]} <i class="fa-solid fa-arrow-up"></i>`, true);
+
+  languageButtons.forEach((button) => { const active = button.dataset.language === language; button.classList.toggle('active', active); button.setAttribute('aria-pressed', String(active)); });
+  setTheme(localStorage.getItem('portfolio-theme') || 'dark');
   localStorage.setItem('portfolio-language', language);
 }
 
-const savedTheme = localStorage.getItem('portfolio-theme');
-if (savedTheme) setTheme(savedTheme);
+setLanguage(localStorage.getItem('portfolio-language') in translations ? localStorage.getItem('portfolio-language') : 'en');
 
-const savedLanguage = localStorage.getItem('portfolio-language');
-if (savedLanguage === 'fr') setLanguage('fr');
+themeToggle.addEventListener('click', () => setTheme(document.body.classList.contains('light-theme') ? 'dark' : 'light'));
+languageButtons.forEach((button) => button.addEventListener('click', () => setLanguage(button.dataset.language)));
+menuToggle.addEventListener('click', () => { const isOpen = nav.classList.toggle('open'); menuToggle.setAttribute('aria-expanded', String(isOpen)); });
+document.querySelectorAll('.site-nav a').forEach((link) => link.addEventListener('click', () => { nav.classList.remove('open'); menuToggle.setAttribute('aria-expanded', 'false'); }));
+questionChips.forEach((chip) => chip.addEventListener('click', () => { questionChips.forEach((question) => question.classList.remove('active')); chip.classList.add('active'); assistantAnswer.classList.add('is-changing'); window.setTimeout(() => { assistantAnswer.querySelector('p').textContent = chip.dataset.answer; assistantAnswer.classList.remove('is-changing'); }, 160); }));
 
-themeToggle.addEventListener('click', () => {
-  setTheme(document.body.classList.contains('light-theme') ? 'dark' : 'light');
-});
-
-languageButtons.forEach((button) => {
-  button.addEventListener('click', () => setLanguage(button.dataset.language));
-});
-
-menuToggle.addEventListener('click', () => {
-  const isOpen = nav.classList.toggle('open');
-  menuToggle.setAttribute('aria-expanded', String(isOpen));
-});
-
-document.querySelectorAll('.site-nav a').forEach((link) => {
-  link.addEventListener('click', () => {
-    nav.classList.remove('open');
-    menuToggle.setAttribute('aria-expanded', 'false');
-  });
-});
-
-questionChips.forEach((chip) => {
-  chip.addEventListener('click', () => {
-    questionChips.forEach((question) => question.classList.remove('active'));
-    chip.classList.add('active');
-    assistantAnswer.classList.add('is-changing');
-    window.setTimeout(() => {
-      assistantAnswer.querySelector('p').textContent = chip.dataset.answer;
-      assistantAnswer.classList.remove('is-changing');
-    }, 160);
-  });
-});
-
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
-
+const revealObserver = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); } }), { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
-
-const motionTargets = document.querySelectorAll('.project, .credential, .logo-badge');
-motionTargets.forEach((target) => {
-  target.addEventListener('pointermove', (event) => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const bounds = target.getBoundingClientRect();
-    const rotateY = ((event.clientX - bounds.left) / bounds.width - .5) * 5;
-    const rotateX = ((event.clientY - bounds.top) / bounds.height - .5) * -5;
-    target.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
-  });
-
-  target.addEventListener('pointerleave', () => {
-    target.style.transform = '';
-  });
-});
+document.querySelectorAll('.project, .credential, .logo-badge').forEach((target) => { target.addEventListener('pointermove', (event) => { if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; const bounds = target.getBoundingClientRect(); const rotateY = ((event.clientX - bounds.left) / bounds.width - .5) * 5; const rotateX = ((event.clientY - bounds.top) / bounds.height - .5) * -5; target.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`; }); target.addEventListener('pointerleave', () => { target.style.transform = ''; }); });
