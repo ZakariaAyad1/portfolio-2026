@@ -8,6 +8,14 @@ const languageSwitcher = document.querySelector('.language-switcher');
 const assistantAnswer = document.querySelector('#assistant-answer');
 const questionChips = document.querySelectorAll('.question-chip');
 
+const locales = {
+  en: { languageTag: 'en', direction: 'ltr' },
+  fr: { languageTag: 'fr', direction: 'ltr' },
+  es: { languageTag: 'es', direction: 'ltr' },
+  ar: { languageTag: 'ar', direction: 'rtl' },
+  ary: { languageTag: 'ary', direction: 'rtl' }
+};
+
 const translations = {
   en: {
     name: 'English', direction: 'ltr', nav: ['About', 'Experience', 'Projects', 'AI Chat', "Let's talk"], theme: ['Switch to dark mode', 'Switch to light mode', 'Dark', 'Light'],
@@ -51,7 +59,7 @@ const translations = {
     work: ['مشاريع مميزة', 'مجموعة من المشاريع الأكاديمية التي تستكشف الأنظمة الذكية والواجهات الخلفية القوية وتجارب المستخدم السلسة.', ['ذكاء اصطناعي / أتمتة', 'إطار نشر وكلاء<br>الذكاء الاصطناعي الذاتيين', 'مسار متكامل لتصميم ونشر وكلاء ذاتيين ينفذون تسلسلات مهام معقدة عبر الاستدلال واستخدام الأدوات.'], ['أنظمة موزعة', 'نظام إدارة<br>المرضى', 'خدمات مصغرة جاهزة للإنتاج لسجلات المرضى والفوترة والتحليلات والمصادقة، صممت لتتوسع.'], ['Full-Stack', 'منصة مراسلة<br>فورية', 'منصة اتصال آمنة مستوحاة من واتساب، تضم دردشة فورية ومشاركة وسائط وتتبع حالة الرسائل.'], ['تعلم الآلة', 'نموذج التنبؤ<br>بالدخل السنوي', 'دربت وقارنت نماذج للتنبؤ بالدخل الفردي المغربي بالاعتماد على بيانات اصطناعية تضم 40,000 سجل.']],
     ai: ['مساعد مستوحى من الذكاء الاصطناعي', 'واجهة معرفة محلية', 'اسأل عن الملف الشخصي<br><em>من دون كتابة.</em>', 'خاص بحكم التصميم · إجابات محددة مسبقًا فقط', 'جاهز للمساعدة', 'اختر سؤالاً أدناه للحصول على تعريف سريع.', 'الأسئلة المتكررة', 'من هو زكرياء؟', 'ما تخصصه؟', 'ما المشاريع التي أنجزها؟', 'ما الأدوات التي يستخدمها؟', 'كيف يمكنني التواصل معه؟'],
     answers: ['زكرياء طالب في السنة الخامسة لهندسة علوم الحاسوب في ENSA تطوان، ومتخصص في نظم المعلومات ودعم القرار. يجمع عمله بين تطوير Full-Stack ومفاهيم الذكاء الاصطناعي وأساسيات DevOps.', 'تركز اهتماماته على بناء تطبيقات Full-Stack قوية، ومسارات ذكية مع وكلاء الذكاء الاصطناعي وRAG، وخدمات قابلة للتوسع باستخدام أدوات السحابة والحاويات الحديثة.', 'تشمل مشاريعه إطارًا لنشر وكلاء ذكاء اصطناعي ذاتيين، ونظام إدارة المرضى، ومنصة مراسلة فورية، ونموذجًا للتنبؤ بالدخل السنوي.', 'يعمل باستخدام Java وSpring Boot وAngular وPython وJavaScript وDocker وPostgreSQL وMongoDB وApache Kafka وAWS والعديد من أدوات الجودة والتسليم.', 'يمكنك التواصل مع زكرياء عبر zakariaayad27@gmail.com أو الهاتف +212 639389058. يقيم في تطوان، المغرب.'],
-    skills: ['الأدوات', 'تقنيات أستخدمها لتحويل الأفكار من المخطط إلى <em>الإطلاق.</em>', 'اللغات والترميز', 'الأطر والمنصات', 'البيانات والذكاء الاصطناعي والتكامل', 'Cloud وDevOps والأنظمة', 'أدوات الجودة والتسليم', 'المنتج والتعاون'], contact: ['منفتح على التعاونات الهادفة', 'لنصنع شيئًا<br><em>مهمًا.</em>', 'البريد الإلكتروني', 'تواصل عبر LinkedIn', 'تطوان، المغرب · متاح عن بعد وفي الموقع', '© 2026 زكرياء أياض. صُنع بعناية.', 'العودة إلى الأعلى']
+    skills: ['الأدوات', 'تقنيات أستخدمها لتحويل الأفكار من المخطط إلى <em>الإطلاق.</em>', 'اللغات والترميز', 'الأطر والمنصات', 'البيانات والذكاء الاصطناعي والتكامل', 'Cloud وDevOps والأنظمة', 'أدوات الجودة والتسليم', 'المنتج والتعاون'], contact: ['منفتح على التعاونات الهادفة', 'لنصنع شيئًا<br><em>مهمًا.</em>', 'البريد الإلكتروني', 'تواصل عبر LinkedIn', 'تطوان، المغرب · متاح عن بعد وفي الموقع', '© 2026 زكريا عياد. صُنع بعناية.', 'العودة إلى الأعلى']
   },
   ary: {
     name: 'الدارجة المغربية', direction: 'rtl', nav: ['عليا', 'التجارب', 'المشاريع', 'شات الذكاء الاصطناعي', 'نتواصلو'], theme: ['بدّل للوضع المظلم', 'بدّل للوضع الفاتح', 'مظلم', 'فاتح'],
@@ -62,7 +70,7 @@ const translations = {
     work: ['مشاريع مميزة', 'مجموعة مشاريع أكاديمية كتستكشف الأنظمة الذكية، والـ backends القوية، وتجارب المستخدم السلسة.', ['ذكاء اصطناعي / أوتوماتيزم', 'إطار نشر وكلاء<br>ذكاء اصطناعي مستقلين', 'مسار كامل لتصميم ونشر وكلاء مستقلين كينفذو مهام معقدة بالاستدلال واستعمال الأدوات.'], ['أنظمة موزعة', 'نظام تدبير<br>المرضى', 'خدمات صغيرة واجدة للإنتاج لملفات المرضى والفوترة والتحليلات والمصادقة، متصممة باش تكبر.'], ['Full-Stack', 'منصة المراسلة<br>فالوقت الحقيقي', 'منصة تواصل آمنة مستوحاة من واتساب، فيها شات مباشر ومشاركة الوسائط وتتبع حالة الرسائل.'], ['تعلم الآلة', 'نموذج توقع<br>الدخل السنوي', 'دربت وقارنت نماذج باش نتوقع الدخل الفردي المغربي من 40,000 سجل اصطناعي.']],
     ai: ['مساعد مستوحى من الذكاء الاصطناعي', 'واجهة معرفة محلية', 'سول على البورتفوليو<br><em>بلا ما تكتب.</em>', 'خاص بالتصميم · غير أجوبة محددة مسبقًا', 'واجد يعاون', 'اختار سؤال من لتحت باش تعرف عليا بسرعة.', 'أسئلة متكررة', 'شكون هو زكرياء؟', 'فاش متخصص؟', 'شنو المشاريع لي دار؟', 'شنو الأدوات لي كيستعمل؟', 'كيفاش نتواصل معاه؟'],
     answers: ['زكرياء طالب فالسنة الخامسة فهندسة المعلوميات فـ ENSA تطوان، متخصص فنظم المعلومات ودعم القرار. الخدمة ديالو كتجمع تطوير Full-Stack ومفاهيم الذكاء الاصطناعي وأساسيات DevOps.', 'الاهتمامات القوية ديالو هي بناء تطبيقات Full-Stack متينة، ومسارات ذكية بوكلاء الذكاء الاصطناعي وRAG، وخدمات كتقدر تكبر باستعمال cloud والحاويات الحديثة.', 'من المشاريع ديالو كاين إطار نشر وكلاء ذكاء اصطناعي مستقلين، نظام تدبير المرضى، منصة مراسلة فالوقت الحقيقي، ونموذج توقع الدخل السنوي.', 'كيخدم بـ Java وSpring Boot وAngular وPython وJavaScript وDocker وPostgreSQL وMongoDB وApache Kafka وAWS، وزيد عليهم أدوات كثيرة ديال الجودة والتسليم.', 'تقدر تتواصل مع زكرياء فـ zakariaayad27@gmail.com ولا فالتلفون +212 639389058. ساكن فتطوان، المغرب.'],
-    skills: ['الأدوات', 'تقنيات كنستعمل باش نوصل الأفكار من السكيش حتى <em>الإطلاق.</em>', 'اللغات والترميز', 'الأطر والمنصات', 'البيانات والذكاء الاصطناعي والتكامل', 'Cloud وDevOps والأنظمة', 'أدوات الجودة والتسليم', 'المنتج والتعاون'], contact: ['منفتح لتعاونات زوينة', 'نبنيو شي حاجة<br><em>كتهم.</em>', 'إيميل', 'تواصل فـ LinkedIn', 'تطوان، المغرب · متاح عن بعد وفالموقع', '© 2026 زكرياء أياض. تدار بنية زوينة.', 'رجع للفوق']
+    skills: ['الأدوات', 'تقنيات كنستعمل باش نوصل الأفكار من السكيش حتى <em>الإطلاق.</em>', 'اللغات والترميز', 'الأطر والمنصات', 'البيانات والذكاء الاصطناعي والتكامل', 'Cloud وDevOps والأنظمة', 'أدوات الجودة والتسليم', 'المنتج والتعاون'], contact: ['منفتح لتعاونات زوينة', 'نبنيو شي حاجة<br><em>كتهم.</em>', 'إيميل', 'تواصل فـ LinkedIn', 'تطوان، المغرب · متاح عن بعد وفالموقع', '© 2026 زكرياء . تدار بنية زوينة.', 'رجع للفوق']
   }
 };
 
@@ -83,10 +91,11 @@ function setTheme(theme) {
 }
 
 function setLanguage(language) {
+  const locale = locales[language] || locales.en;
   const copy = translations[language] || translations.en;
-  document.documentElement.lang = language;
-  document.documentElement.dir = copy.direction;
-  document.body.classList.toggle('rtl', copy.direction === 'rtl');
+  document.documentElement.lang = locale.languageTag;
+  document.documentElement.dir = locale.direction;
+  document.body.classList.toggle('rtl', locale.direction === 'rtl');
   languageSwitcher.setAttribute('aria-label', `${copy.name} language selector`);
 
   document.querySelectorAll('.site-nav a').forEach((element, index) => setText(`.site-nav a:nth-child(${index + 1})${index === 4 ? ' span' : ''}`, copy.nav[index]));
@@ -141,6 +150,7 @@ themeToggle.addEventListener('click', () => setTheme(document.body.classList.con
 languageButtons.forEach((button) => button.addEventListener('click', () => setLanguage(button.dataset.language)));
 menuToggle.addEventListener('click', () => { const isOpen = nav.classList.toggle('open'); menuToggle.setAttribute('aria-expanded', String(isOpen)); });
 document.querySelectorAll('.site-nav a').forEach((link) => link.addEventListener('click', () => { nav.classList.remove('open'); menuToggle.setAttribute('aria-expanded', 'false'); }));
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { nav.classList.remove('open'); menuToggle.setAttribute('aria-expanded', 'false'); menuToggle.focus(); } });
 questionChips.forEach((chip) => chip.addEventListener('click', () => { questionChips.forEach((question) => question.classList.remove('active')); chip.classList.add('active'); assistantAnswer.classList.add('is-changing'); window.setTimeout(() => { assistantAnswer.querySelector('p').textContent = chip.dataset.answer; assistantAnswer.classList.remove('is-changing'); }, 160); }));
 
 const revealObserver = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); } }), { threshold: 0.12 });
